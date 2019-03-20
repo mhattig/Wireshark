@@ -17,6 +17,6 @@ Python programs:
     get_packet_capture_files.py - capture all packets on a channel over a period of hours 
         in 20 minute chunks. Capture files get too big for Wireshark to load after about 20 minutes
         in most environments. 
-    extract_packets.py - take output from get_packet_capture_file.py as input to extrace packets 
+    extract_packets.py - take output from get_packet_capture_file.py as input to extract packets 
         for a single MAC from all the packet captures, splice them all together to create a single 
         file for one MAC address over an extended period of time (e.g. days, weeks).
