@@ -19,7 +19,8 @@ Wireshark 2.6.6.
 
 python:
 
-Python progams to create and transform packet captures using dumpcap, tshark, mergecap.
+This directory contains Python progams to create and transform packet captures using 
+dumpcap, tshark, mergecap.
 
     time_slies.py - capture all packets on a channel over test duration period Y in 
         slices of time X. Examples use Y = 10 minutes, X = 2 minutes.
@@ -31,5 +32,5 @@ Python progams to create and transform packet captures using dumpcap, tshark, me
 
 data:
 
-Directory with output from each of the python programs to illustrate what a
-completed data pipeline looks like.
+This directory is a sample dataset from the python programs for a 10 minute test
+duration, 2 minute time slices, and 2 MAC addresses.
