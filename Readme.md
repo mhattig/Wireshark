@@ -1,22 +1,32 @@
-This repository provides Wireshark config files and python programs that use Wireshark tools.
+This repository provides Wireshark config files and python programs that use Wireshark tools 
+and a data sample created by using the python programs. Subdirectories in the repository are:
+    config
+    python
+    data
 
-Wireshark config files should be downloaded into the OSX directory of <HOME>/.config/wireshark or equivalent for Windows or Linux. These files configure the Wireshark GUI interface. 
+Here are descriptions of these directories:
 
-Wireshark Config files:
+config:
+    This directory contains wireshark configuration files. These files should be copied
+    into the ~/.config/wireshark directory that gets created after downloading
+    Wireshark 2.6.6. 
 
-    colorfilters - mark Wi-Fi packets of intereset a particular color in the Wireshark GUI. Provides 
-        color patterns of things like Wi-Fi Association, DHCP, DNS, TCP connection/disconnect. Looking
-        at packets based purely on text in protocol fields is highly error prone.
-    preferences - predefined display filters to only display particular packets (e.g. WiFi 4-way 
-        handshake, DHCP, DNS, TCP).  Must set AP an STA Mac address in the file. Can be done 
-        with an Wireshark GUI or with text editor (but be careful). Change XX:XX:XX:XX:XX:XX 
-        and YY:YY:YY:YY:YY:YY to MAC address of STA and MAC address of AP.
+    A breif description of each file:
+        preferences - defines wireshark window pane layour and columns in the display pane
+        colorfilters - associates colors with protocol fields and values for display in 
+            Wireshark GUI display pane
+        dfilter_buttons - display filters for repeatable packet analysis
+        80211_keys - Wi-Fi SSID and password to decode Wi-Fi encrypted packets
 
-Python programs:
+python:
+    time_slies.py - capture all packets on a channel over test duration period Y in 
+        slices of time X. Examples use Y = 10 minutes, X = 2 minutes.
+    mac_traces.py - using output from time_slices.py as input, produces temp files
+        that include only desireced mac addresses from each time slice, then merges
+        these timeslices into a single packet trace for each mac.
+    transform.py - using output from mac_traces.py, produces columnized text files
+        with desired packet information
 
-    get_packet_capture_files.py - capture all packets on a channel over a period of hours 
-        in 20 minute chunks. Capture files get too big for Wireshark to load after about 20 minutes
-        in most environments. 
-    extract_packets.py - take output from get_packet_capture_file.py as input to extract packets 
-        for a single MAC from all the packet captures, splice them all together to create a single 
-        file for one MAC address over an extended period of time (e.g. days, weeks).
+data:
+    Directory with output from each of the python programs to illustrate what a
+    completed data pipeline looks like.

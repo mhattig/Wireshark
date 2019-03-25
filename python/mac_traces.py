@@ -1,4 +1,4 @@
-# File: extract_packets.py
+# File: mac_traces.py
 #
 # The MIT License
 # 
@@ -46,27 +46,26 @@
 # splice-together of all packets for a single STA MAC and AP MAC for the duration of the entire test.
 #
 # Steps
-#   1. Add STAs mac addresses to capture to the variable macs = []
-#   2. Set the AP mac address to the variable AP_mac
+#   1. Set AP_mac value to the AP's mac address
+#   2. Set STA_mac list to the list of MACs you want to analyze
 #   3. Set the values for the input_dir, temp_dir, and output_dir. Name of input_dir must match the
-#      desired output from get_packet_capture_files.py.
+#      desired output from time_slices.py.
 #
 import os
 import re
 
 ########################################################################
 # Mainline
-#   1. Start wireshark before turning on the in order to capture the 4-way handshake
-##########################################################################################
+########################################################################
 def main () :
     ######### UPDATE these values when starting a new query
-    input_dir = "2018-10-08_14_48_02_packets"
-    temp_dir = "temp_14_48_02"
-    output_dir = "output_14_48_02"
+    input_dir = '2019-03-24_21_12_09_time_slices'
+    temp_dir = '2019-03-24_21_12_09_mac_time_slices'
+    output_dir = '2019-03-24_21_12_09_macs'
     # MAC of STAs and APs that are to be captured
     # replace these with correct MACs
-    macs = ["01:02:03:04:05:06", "07:08:09:10:11:12"]
-    AP_mac = "13:14:15:16:17:18" 
+    AP_mac = 'C0:25:E9:03:89:AE'
+    STA_macs = ['CC:50:E3:88:18:6C', 'e2:00:34:28:8d:00']
 
     if os.path.exists(input_dir):
         if not os.path.exists(temp_dir):
@@ -81,13 +80,13 @@ def main () :
 
         input_file_names = []
         with open(input_file_list) as fd :
-            # get the original capture files that have all packets for a given period of time
+            # get the original capture files 
             for line in fd:
-                input_file_name, crap = line.split('\n')
+                input_file_name, junk = line.split('\n')
                 input_file_names.append(input_file_name)
 
         i = 1
-        for mac in macs :
+        for mac in STA_macs :
             temp_file_names = []
             mac_str = re.sub(':','_',mac)
             j = 1
@@ -97,12 +96,11 @@ def main () :
                 # overwritten.
                 temp_file_name = "%s/temp_%s_%d_%d.pcapng" % (temp_dir, mac_str, i, j)
                 temp_file_names.append(temp_file_name)
-                s_cmnd = "tshark -Y \"wlan.addr == %s\" -Y \"wlan.addr == %s\" -r %s -w %s" % 
-                    (AP_mac, mac, input_file_name, temp_file_name)
+                s_cmnd = "tshark -Y \"wlan.addr == %s\" -Y \"wlan.addr == %s\" -r %s -w %s" % (AP_mac, mac, input_file_name, temp_file_name)
                 print "tshark = %s" % s_cmnd
                 os.system(s_cmnd)
                 j += 1
-            # merge all the temp files from one mac address together
+            # merge all the temp files from one mac address into single packet trace
             merge_cmnd_str = "mergecap -w %s/%s_packets.pcapng" % (output_dir, mac_str)
             for temp_file_name in temp_file_names :
                 merge_cmnd_str += " %s" % temp_file_name
