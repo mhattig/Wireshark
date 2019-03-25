@@ -13,7 +13,7 @@ Wireshark 2.6.6.
 
     preferences - defines wireshark window pane layour and columns in the display pane
     colorfilters - associates colors with protocol fields and values for display in 
-    Wireshark GUI display pane
+        Wireshark GUI display pane
     dfilter_buttons - display filters for repeatable packet analysis
     80211_keys - Wi-Fi SSID and password to decode Wi-Fi encrypted packets
 
