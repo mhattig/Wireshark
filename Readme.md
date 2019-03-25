@@ -5,9 +5,9 @@ A data sample is included. Subdirectories in the repository are:
     python
     data
 
-TThishe config directory contains wireshark configuration files. These files should be copied
-into the user's ~/.config/wireshark directory that gets created after downloading
-Wireshark 2.6.6. 
+The config directory contains wireshark configuration files. These files should be copied
+into the user's ~/.config/wireshark directory. The ~/.config/wireshark directory is 
+created as part of the installation of Wireshark 2.6.6. 
 
     preferences - defines wireshark window pane layout and columns in the display pane
     colorfilters - associates colors with protocol fields and field values to create 
