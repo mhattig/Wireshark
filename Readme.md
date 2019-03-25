@@ -5,9 +5,7 @@ A data sample is included. Subdirectories in the repository are:
     python
     data
 
-config:
-
-This directory contains wireshark configuration files. These files should be copied
+The config directory contains wireshark configuration files. These files should be copied
 into the ~/.config/wireshark directory that gets created after downloading
 Wireshark 2.6.6. 
 
@@ -17,9 +15,7 @@ Wireshark 2.6.6.
     dfilter_buttons - display filters for repeatable packet analysis
     80211_keys - Wi-Fi SSID and password to decode Wi-Fi encrypted packets
 
-python:
-
-This directory contains Python progams to create and transform packet captures using 
+The python directory contains Python progams to create and transform packet captures using 
 dumpcap, tshark, mergecap.
 
     time_slies.py - capture all packets on a channel over test duration period Y in 
@@ -30,7 +26,5 @@ dumpcap, tshark, mergecap.
     transform.py - using output from mac_traces.py, produces columnized text files
         with desired packet information
 
-data:
-
-This directory is a sample dataset from the python programs for a 10 minute test
+The data directory is a sample dataset from the python programs for a 10 minute test
 duration, 2 minute time slices, and 2 MAC addresses.
