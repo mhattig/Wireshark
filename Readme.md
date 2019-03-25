@@ -15,8 +15,8 @@ created as part of the installation of Wireshark 2.6.6.
     dfilter_buttons - display filters for repeatable packet analysis
     80211_keys - Wi-Fi SSID and password to decode Wi-Fi encrypted packets
 
-The python directory contains Python progams to create and transform packet captures using 
-dumpcap, tshark, mergecap.
+The python directory contains Python 2.7 progams to create and transform packet captures 
+using dumpcap, tshark, mergecap.
 
     time_slies.py - capture all packets on a channel over test duration period Y in 
         slices of time X. Examples use Y = 10 minutes, X = 2 minutes, 2 mac addrs.
