@@ -5,8 +5,6 @@ and a data sample created by using the python programs. Subdirectories in the re
     python
     data
 
-Here are descriptions of these directories:
-
 config:
 
 This directory contains wireshark configuration files. These files should be copied
