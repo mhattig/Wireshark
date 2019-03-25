@@ -1,5 +1,5 @@
-This repository provides Wireshark config files and python programs that use Wireshark tools 
-and a data sample created by using the python programs. Subdirectories in the repository are:
+This repository provides Wireshark config files and python programs that use Wireshark tools.
+A data sample is included. Subdirectories in the repository are:
 
     config
     python
