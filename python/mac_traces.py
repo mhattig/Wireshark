@@ -65,7 +65,7 @@ def main () :
     # MAC of STAs and APs that are to be captured
     # replace these with correct MACs
     AP_mac = 'C0:25:E9:03:89:AE'
-    STA_macs = ['CC:50:E3:88:18:6C', 'e2:00:34:28:8d:00']
+    STA_macs = ['CC:50:E3:88:18:6C', 'F4:0F:24:31:71:FC']
 
     if os.path.exists(input_dir):
         if not os.path.exists(temp_dir):
