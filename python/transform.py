@@ -58,9 +58,19 @@ import re
 ########################################################################
 def main () :
     ######### UPDATE these values when starting 
-    input_dir = '2019-03-24_21_12_09_merged_macs'
-    output_dir = '2019-03-24_21_12_09_transformed'
-    display_filter = '-Y \"wlan.fc.type_subtype != 0x001d\" -Y \"wlan.fc.type_subtype != 0x0005\" -Y \"frame.len != 53\" -Y \"wlan.fc.type_subtype != 0x001b\" -Y \"wlan.fc.type_subtype != 0x001c\"'
+    input_dir = '2019-03-25_19_59_42_macs'
+    output_dir = '2019-03-25_19_59_42_transformed'
+    # display_filter:
+    # Probe Request: type_subtype = 0x4
+    # Probe Response: type_subtype = 0x5
+    # Ack: type_subtype= 0x1d
+    # Block Ack: type_subtype= 0x19
+    # RTS: type_subtype= 0x1b
+    # CTS: type_subtype= 0x1c
+    # Null Frames: (frame.len == 53)
+    # 
+    display_filter = ' -Y \"!(wlan.fc.type_subtype == 0x0019) && !(wlan.fc.type_subtype == 0x001c) && !(wlan.fc.type_subtype == 0x001b) && !(wlan.fc.type_subtype == 0x001d) && !(wlan.fc.type_subtype == 0x0005) && !(wlan.fc.type_subtype == 0x0005) && !(frame.len == 53) \" '
+    display_dhcp_dns = ' -Y \" (udp.port == 53 || udp.port == 68 || udp.port == 67) \" '
 
     if os.path.exists(input_dir):
         if not os.path.exists(output_dir):
@@ -84,7 +94,7 @@ def main () :
             output_file_name_no_ext, junk = output_file_name_no_dir.split('.')
             #print "output_file_name_no_ext = %s" % output_file_name_no_ext 
             output_file_name = "%s/%s.txt" % (output_dir, output_file_name_no_ext)
-            s_cmnd = "tshark %s -r %s > %s" % (display_filter, input_file_name, output_file_name)
+            s_cmnd = "tshark -r %s %s > %s" % (input_file_name, display_filter, output_file_name)
             print "tshark = %s" % s_cmnd
             os.system(s_cmnd)
     else:

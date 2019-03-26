@@ -37,10 +37,11 @@
 # and not the STA MAC address.
 # 
 # Steps
-#   1. Set AP_mac value to the AP's mac address
-#   2. Set STA_mac list to the list of MACs you want to analyze
-#   3. Set the duration of the entire packet capture
-#   4. Set the time for each individual packet capture
+#   1. Set the duration of the entire packet capture
+#   2. Set the time for each individual packet capture
+# Optionally use capture filters
+#   3. Set AP_mac value to the AP's mac address
+#   4. Set STA_mac list to the list of MACs you want to analyze
 #
 # Resulting capture files are put into a subdirectory with a name that 
 # includes the time/date that the packet capture was started.  
@@ -54,12 +55,14 @@ from datetime import datetime, timedelta
 def main () :
 
     ######### UPDATE these values when starting a new test
-    # MAC of STAs and APs that are to be captured
     # replace these with correct MACs
-    AP_mac = 'C0:25:E9:03:89:AE'
-    STA_macs = ['CC:50:E3:88:18:6C', 'F4:0F:24:31:71:FC']
     test_duration = 10*60  # duration of test time in seconds
     sniff_time = 2*60        # sniff time in seconds
+    # MAC of STAs and APs that are to be captured
+    AP_mac = ''
+    STA_macs = []
+    #AP_mac = 'C0:25:E9:03:89:AE'
+    #STA_macs = ['CC:50:E3:88:18:6C', 'F4:0F:24:31:71:FC']
 
     start_datetime = datetime.now()
     end_datetime = start_datetime + timedelta(seconds=test_duration)

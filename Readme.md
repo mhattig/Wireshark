@@ -3,7 +3,6 @@ A data sample is included. Subdirectories in the repository are:
 
     config
     python
-    data
 
 The config directory contains wireshark configuration files. These files are to be copied
 into the user's ~/.config/wireshark directory. The ~/.config/wireshark directory is 
@@ -26,5 +25,6 @@ using dumpcap, tshark, mergecap.
     transform.py - using output from mac_traces.py, produces columnized text files
         with desired packet information
 
-The data directory is a sample dataset from the python programs for a 10 minute test
-duration, 2 minute time slices, and 2 MAC addresses.
+The data.zip file is a sample dataset from the python programs for a 10 minute test
+duration, 2 minute time slices, and 1 MAC address. A capture filter was used to 
+reduce the size of the packet capture files.

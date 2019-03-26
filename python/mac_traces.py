@@ -59,9 +59,9 @@ import re
 ########################################################################
 def main () :
     ######### UPDATE these values when starting a new query
-    input_dir = '2019-03-24_21_12_09_time_slices'
-    temp_dir = '2019-03-24_21_12_09_mac_time_slices'
-    output_dir = '2019-03-24_21_12_09_macs'
+    input_dir = '2019-03-25_19_59_42_time_slices'
+    temp_dir = '2019-03-25_19_59_42_mac_time_slices'
+    output_dir = '2019-03-25_19_59_42_macs'
     # MAC of STAs and APs that are to be captured
     # replace these with correct MACs
     AP_mac = 'C0:25:E9:03:89:AE'
