@@ -53,15 +53,24 @@
 #
 import os
 import re
+import sys
+
+_THIS_FILE_LOCATION_ = os.path.dirname(os.path.realpath(__file__))
+# Add directory if data is not in current directory
+#_DATA_LOCATION_ = os.path.join(os.path.dirname(_THIS_FILE_LOCATION_), 'data')
+_DATA_LOCATION_ = _THIS_FILE_LOCATION_ 
+# Just use current dir if data in the same directory as the python files
+#_DATA_LOCATION_ = _THIS_FILE_LOCATION_
+_WIRESHARK_INSTALL_LOCATION_ = "C:\Program Files\Wireshark"
 
 ########################################################################
 # Mainline
 ########################################################################
 def main () :
     ######### UPDATE these values when starting a new query
-    input_dir = '2019-03-25_19_59_42_time_slices'
-    temp_dir = '2019-03-25_19_59_42_mac_time_slices'
-    output_dir = '2019-03-25_19_59_42_macs'
+    input_dir = os.path.join(_DATA_LOCATION_, '2019-03-25_19_59_42_time_slices')
+    temp_dir = os.path.join(_DATA_LOCATION_, '2019-03-25_19_59_42_mac_time_slices')
+    output_dir = os.path.join(_DATA_LOCATION_, '2019-03-25_19_59_42_macs')
     # MAC of STAs and APs that are to be captured
     # replace these with correct MACs
     AP_mac = 'C0:25:E9:03:89:AE'
@@ -73,17 +82,7 @@ def main () :
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
 
-        input_file_list = "%s/input_file_list.txt" % temp_dir
-        s_cmnd = "ls %s/*.pcapng > %s" % (input_dir, input_file_list)
-        print s_cmnd
-        os.system(s_cmnd)
-
-        input_file_names = []
-        with open(input_file_list) as fd :
-            # get the original capture files 
-            for line in fd:
-                input_file_name, junk = line.split('\n')
-                input_file_names.append(input_file_name)
+        input_file_names = [os.path.join(input_dir, f) for f in os.listdir(input_dir) if f.endswith('pcapng')]
 
         i = 1
         for mac in STA_macs :
@@ -94,21 +93,24 @@ def main () :
                 # create temp file that extracts the packets with AP mac address and/or
                 # one STA mac address. i and j make filename unique so data is not 
                 # overwritten.
-                temp_file_name = "%s/temp_%s_%d_%d.pcapng" % (temp_dir, mac_str, i, j)
+                temp_file_name = os.path.join(temp_dir, "temp_%s_%d_%d.pcapng" % (mac_str, i, j))
                 temp_file_names.append(temp_file_name)
+
                 s_cmnd = "tshark -Y \"wlan.addr == %s\" -Y \"wlan.addr == %s\" -r %s -w %s" % (AP_mac, mac, input_file_name, temp_file_name)
-                print "tshark = %s" % s_cmnd
+                print("tshark = %s" % s_cmnd)
                 os.system(s_cmnd)
                 j += 1
+
             # merge all the temp files from one mac address into single packet trace
-            merge_cmnd_str = "mergecap -w %s/%s_packets.pcapng" % (output_dir, mac_str)
+            merge_cmnd_str = "mergecap -w "
+            merge_cmnd_str += os.path.join(output_dir, "%s_packets.pcapng" % (mac_str))
             for temp_file_name in temp_file_names :
                 merge_cmnd_str += " %s" % temp_file_name
-            print "Merge = %s" % merge_cmnd_str
+            print("Merge = %s" % merge_cmnd_str)
             os.system(merge_cmnd_str)
             i += 1
     else:
-        print "Missing input directory"
+        print("Missing input directory")
 
 if __name__ == "__main__":
     main ()

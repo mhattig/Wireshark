@@ -52,14 +52,23 @@
 #
 import os
 import re
+import sys
+
+_THIS_FILE_LOCATION_ = os.path.dirname(os.path.realpath(__file__))
+# Add directory if data is not in same directory as the python files
+_DATA_LOCATION_ = os.path.join(os.path.dirname(_THIS_FILE_LOCATION_), 'data')
+# Don't add any directory Just use current dir if data in the same directory as the python files
+#_DATA_LOCATION_ = _THIS_FILE_LOCATION_
+_WIRESHARK_INSTALL_LOCATION_ = "C:\Program Files\Wireshark"
 
 ########################################################################
 # Mainline
 ########################################################################
 def main () :
     ######### UPDATE these values when starting 
-    input_dir = '2019-03-25_19_59_42_macs'
-    output_dir = '2019-03-25_19_59_42_transformed'
+    input_dir = os.path.join(_DATA_LOCATION_, '2019-03-25_19_59_42_macs')
+    output_dir = os.path.join(_DATA_LOCATION_, '2019-03-25_19_59_42_transformed')
+
     # display_filter:
     # Probe Request: type_subtype = 0x4
     # Probe Response: type_subtype = 0x5
@@ -76,29 +85,19 @@ def main () :
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
 
-        input_file_list = "%s/input_file_list.txt" % input_dir
-        s_cmnd = "ls %s/*.pcapng > %s" % (input_dir, input_file_list)
-        print s_cmnd
-        os.system(s_cmnd)
-
-        input_file_names = []
-        with open(input_file_list) as fd :
-            for line in fd:
-                input_file_name, junk = line.split('\n')
-                input_file_names.append(input_file_name)
+        input_file_names = [os.path.join(input_dir, f) for f in os.listdir(input_dir) if f.endswith('pcapng')]
 
         for input_file_name in input_file_names :
-            #print "input_file_name = %s" % input_file_name 
-            junk, output_file_name_no_dir = input_file_name.split('/')
-            #print "output_file_name_no_dir = %s" % output_file_name_no_dir 
-            output_file_name_no_ext, junk = output_file_name_no_dir.split('.')
-            #print "output_file_name_no_ext = %s" % output_file_name_no_ext 
-            output_file_name = "%s/%s.txt" % (output_dir, output_file_name_no_ext)
+            output_file_name_no_dir = os.path.basename(input_file_name)
+            output_file_name_no_ext = os.path.splitext(output_file_name_no_dir)[0]
+            output_file_name_with_ext = output_file_name_no_ext + '.txt'
+            output_file_name = os.path.join(output_dir, output_file_name_with_ext)
+
             s_cmnd = "tshark -r %s %s > %s" % (input_file_name, display_filter, output_file_name)
-            print "tshark = %s" % s_cmnd
+            print("tshark = %s" % s_cmnd)
             os.system(s_cmnd)
     else:
-        print "Missing input directory"
+        print("Missing input directory")
 
 if __name__ == "__main__":
     main ()
